@@ -12,6 +12,7 @@ graph TD
  class Editor{
     view: EditorView - 视图（来源于prosemirror-view）
     extensionManager: ExtensionManager — 拓展管理器
+    commandManager: CommandManager — 命令管理器
 
  }
 ```
@@ -46,3 +47,11 @@ class ExtensionManager{
     extensions: Extension[] (Extension | Node | Mark)
 }
 ```
+
+
+
+## todo
+- 如何根据内容匹配上对应的自定义Node的？ —— 好像是根据parseHTML匹配? - Editor createView构建doc阶段处理的？
+- 如何手动构建自定义Node?
+- 监听suggestion逻辑是什么?
+- renderText 逻辑是什么? 渲染元素的文本内容?

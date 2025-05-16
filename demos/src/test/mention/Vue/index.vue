@@ -8,6 +8,7 @@
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
+import Bold from '@tiptap/extension-bold'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 
 import Mention from './src/mention'
@@ -31,6 +32,7 @@ export default {
         Document,
         Paragraph,
         Text,
+        Bold,
         Mention,
         // Mention.configure({
         //   HTMLAttributes: {

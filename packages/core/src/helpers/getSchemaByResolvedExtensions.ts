@@ -111,8 +111,9 @@ export function getSchemaByResolvedExtensions(extensions: Extensions, editor?: E
       )
 
       if (renderHTML) {
+        // 转换为DOM，调用对应node的renderHTML方法
         schema.toDOM = node => {
-          console.trace('excute renderHTML')
+          // 这里的调用，是在prosemirror中的viewdesc/NodeViewDesc/ DOMSerializer.renderSpec
 
           return renderHTML({
             node,
@@ -205,6 +206,8 @@ export function getSchemaByResolvedExtensions(extensions: Extensions, editor?: E
     }),
   )
 
+  // 构建Schema对象（包含nodes、marks、topNode）
+  // 传递进去的nodes、marks不是Node、mark对象，会通过 NodeType.compile、MarkType.compile 转换为NodeType、MarkType对象
   return new Schema({
     topNode,
     nodes,
