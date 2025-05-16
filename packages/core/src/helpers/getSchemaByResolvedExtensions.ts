@@ -33,6 +33,7 @@ function cleanUpSchemaItem<T>(data: T) {
  */
 export function getSchemaByResolvedExtensions(extensions: Extensions, editor?: Editor): Schema {
   const allAttributes = getAttributesFromExtensions(extensions)
+  // 拆分扩展，区分extension、node、mark
   const { nodeExtensions, markExtensions } = splitExtensions(extensions)
   const topNode = nodeExtensions.find(extension => getExtensionField(extension, 'topNode'))?.name
 
@@ -61,6 +62,7 @@ export function getSchemaByResolvedExtensions(extensions: Extensions, editor?: E
         }
       }, {})
 
+      // 获取node extension各类属性，构建schema
       const schema: NodeSpec = cleanUpSchemaItem({
         ...extraNodeFields,
         content: callOrReturn(
@@ -92,6 +94,7 @@ export function getSchemaByResolvedExtensions(extensions: Extensions, editor?: E
         ),
       })
 
+      // 获取(getExtensionField)、并执行(callOrReturn)，获取parseHTML
       const parseHTML = callOrReturn(
         getExtensionField<NodeConfig['parseHTML']>(extension, 'parseHTML', context),
       )
@@ -100,6 +103,7 @@ export function getSchemaByResolvedExtensions(extensions: Extensions, editor?: E
         schema.parseDOM = parseHTML.map(parseRule => injectExtensionAttributesToParseRule(parseRule, extensionAttributes)) as TagParseRule[]
       }
 
+      // 获取renderHTML方法
       const renderHTML = getExtensionField<NodeConfig['renderHTML']>(
         extension,
         'renderHTML',
@@ -107,10 +111,14 @@ export function getSchemaByResolvedExtensions(extensions: Extensions, editor?: E
       )
 
       if (renderHTML) {
-        schema.toDOM = node => renderHTML({
-          node,
-          HTMLAttributes: getRenderedAttributes(node, extensionAttributes),
-        })
+        schema.toDOM = node => {
+          console.trace('excute renderHTML')
+
+          return renderHTML({
+            node,
+            HTMLAttributes: getRenderedAttributes(node, extensionAttributes),
+          })
+        }
       }
 
       const renderText = getExtensionField<NodeConfig['renderText']>(
