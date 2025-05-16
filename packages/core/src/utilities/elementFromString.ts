@@ -8,6 +8,7 @@ const removeWhitespaces = (node: HTMLElement) => {
     if (child.nodeType === 3 && child.nodeValue && /^(\n\s\s|\n)$/.test(child.nodeValue)) {
       node.removeChild(child)
     } else if (child.nodeType === 1) {
+      // 如果节点是元素节点(p/span/div...)，则递归删除子节点
       removeWhitespaces(child as HTMLElement)
     }
   }
