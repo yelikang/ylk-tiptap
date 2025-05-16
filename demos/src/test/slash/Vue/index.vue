@@ -6,10 +6,11 @@
 </template>
 
 <script>
-import Document from "@tiptap/extension-document";
-import Text from '@tiptap/extension-text'
+import Blockquote from '@tiptap/extension-blockquote'
+import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
-import { Editor, EditorContent } from "@tiptap/vue-3";
+import Text from '@tiptap/extension-text'
+import { Editor, EditorContent } from '@tiptap/vue-3'
 
 export default {
   components: {
@@ -20,7 +21,7 @@ export default {
     return {
       editor: null,
       limit: 280,
-    };
+    }
   },
 
   mounted() {
@@ -28,24 +29,28 @@ export default {
       extensions: [
         Document,
         Paragraph,
-        Text
+        Text,
+        Blockquote,
       ],
       content: `
         <p>
           Let‘s make sure people can’t write more than 280 characters. I bet you could build one of the biggest social networks on that idea.
         </p>
       `,
-    });
+      onCreate() {
+        console.log('onCreate')
+      },
+    })
   },
   methods: {
     $_onGetContent() {
-      console.log(this.editor.getHTML());
+      console.log(this.editor.getHTML())
     },
   },
   beforeUnmount() {
-    this.editor.destroy();
+    this.editor.destroy()
   },
-};
+}
 </script>
 
 <style lang="scss">

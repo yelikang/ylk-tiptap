@@ -10,7 +10,7 @@ graph TD
 ## Editor
 ```js
  class Editor{
-    view: EditorView - 视图
+    view: EditorView - 视图（来源于prosemirror-view）
     extensionManager: ExtensionManager — 拓展管理器
 
  }

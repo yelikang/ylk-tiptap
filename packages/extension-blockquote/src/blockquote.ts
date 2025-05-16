@@ -30,6 +30,7 @@ declare module '@tiptap/core' {
 
 /**
  * Matches a blockquote to a `>` as input.
+ * 匹配blockquote的>输入
  */
 export const inputRegex = /^\s*>\s$/
 

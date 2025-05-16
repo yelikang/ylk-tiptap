@@ -156,6 +156,7 @@ export class ExtensionManager {
     // so it feels more natural to run plugins at the end of an array first.
     // That’s why we have to reverse the `extensions` array and sort again
     // based on the `priority` option.
+    // 拓展根据priority优先级排序
     const extensions = ExtensionManager.sort([...this.extensions].reverse())
 
     const inputRules: InputRule[] = []
@@ -173,6 +174,7 @@ export class ExtensionManager {
 
         const plugins: Plugin[] = []
 
+        // 1. 获取扩展的addKeyboardShortcuts方法
         const addKeyboardShortcuts = getExtensionField<AnyConfig['addKeyboardShortcuts']>(
           extension,
           'addKeyboardShortcuts',
@@ -187,6 +189,9 @@ export class ExtensionManager {
         }
 
         if (addKeyboardShortcuts) {
+          // 1.1 执行addKeyboardShortcuts方法，返回一个对象，对象的key是快捷键，value是方法
+          // Object.entries.map() ： {enter: () => {}} 转换为 ['enter', () => {}]
+          // Object.fromEntries() ： ['enter', () => {}] 转换为 {enter: (editor) => {}} 标准化
           const bindings = Object.fromEntries(
             Object.entries(addKeyboardShortcuts()).map(([shortcut, method]) => {
               return [shortcut, () => method({ editor })]
@@ -196,10 +201,12 @@ export class ExtensionManager {
           defaultBindings = { ...defaultBindings, ...bindings }
         }
 
+        // 构建keymap插件
         const keyMapPlugin = keymap(defaultBindings)
 
         plugins.push(keyMapPlugin)
 
+        // 2. 获取扩展的addInputRules方法(例如blockquote中有该方法) —— 构建输入规则
         const addInputRules = getExtensionField<AnyConfig['addInputRules']>(
           extension,
           'addInputRules',
@@ -210,6 +217,7 @@ export class ExtensionManager {
           inputRules.push(...addInputRules())
         }
 
+        // 3. 获取扩展的addPasteRules方法 —— 构建粘贴规则
         const addPasteRules = getExtensionField<AnyConfig['addPasteRules']>(
           extension,
           'addPasteRules',
@@ -220,6 +228,7 @@ export class ExtensionManager {
           pasteRules.push(...addPasteRules())
         }
 
+        // 4. 获取扩展的addProseMirrorPlugins方法 —— 构建ProseMirror插件
         const addProseMirrorPlugins = getExtensionField<AnyConfig['addProseMirrorPlugins']>(
           extension,
           'addProseMirrorPlugins',
