@@ -323,6 +323,7 @@ export class Editor extends EventEmitter<EditorEvents> {
     let doc: ProseMirrorNode
 
     try {
+      // 基于schema、content、parseOptions创建doc
       doc = createDocument(
         this.options.content,
         this.schema,

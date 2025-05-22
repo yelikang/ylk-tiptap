@@ -109,7 +109,8 @@ export function createNodeFromContent(
         throw new Error('[tiptap error]: Invalid HTML content', { cause: new Error(`Invalid element found: ${invalidContent}`) })
       }
     }
-
+    // schema中包含各类nodes的parseHTML内容(转换为了parseDOM)，从这里构建rule？
+    // DOMParser.schemaRules会分别解析schema.marks、schema.nodes的parseDOM，构建rule
     const parser = DOMParser.fromSchema(schema)
 
     if (options.slice) {
