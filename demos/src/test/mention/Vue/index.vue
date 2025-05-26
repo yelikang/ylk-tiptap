@@ -33,7 +33,11 @@ export default {
         Paragraph,
         Text,
         Bold,
-        Mention,
+        Mention.configure({
+          userInfo: {
+            sex: 'male',
+          },
+        }),
         // Mention.configure({
         //   HTMLAttributes: {
         //     class: 'mention',

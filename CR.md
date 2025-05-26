@@ -88,6 +88,21 @@ class ExtensionManager{
 - 构建doc的时候，就通过parser解析到对应的Node，构建doc层级
 - 创建EditorView的时候，使用docViewDesc，调用实际的renderHTML
 
+
+### extension.configure
+例如: 会将Node.create创建的Mention对象，传入个性化的配置；与addOptions方法返回的options进行合并
+```js
+Mention.configure({
+  HTMLAttributes: {
+    class: 'mention',
+  },
+})
+```
+
+
+
+
+
 ## todo
 - 如何根据内容匹配上对应的自定义Node的？ —— 好像是根据parseHTML匹配? - Editor createView构建doc阶段处理的？
 - 如何手动构建自定义Node?
