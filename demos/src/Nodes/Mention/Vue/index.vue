@@ -1,5 +1,6 @@
 <template>
   <div v-if="editor">
+    <a @click="getEditorContent">获取内容</a>
     <editor-content :editor="editor" />
   </div>
 </template>
@@ -12,6 +13,7 @@ import Text from '@tiptap/extension-text'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 
 import suggestion from './suggestion.js'
+import { getText } from '../../../../../packages/core/src/helpers/getText';
 
 export default {
   components: {
@@ -49,6 +51,12 @@ export default {
 
   beforeUnmount() {
     this.editor.destroy()
+  },
+
+  methods: {
+    getEditorContent() {
+      console.log(this.editor.getText())
+    },
   },
 }
 </script>

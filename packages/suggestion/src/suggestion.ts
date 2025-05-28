@@ -337,6 +337,8 @@ export function Suggestion<I = any, TSelected = any>({
           })
           const decorationId = `id_${Math.floor(Math.random() * 0xffffffff)}`
 
+          console.log('match', match)
+
           // If we found a match, update the current state to show it
           if (match && allow({
             editor, state, range: match.range, isActive: prev.active,

@@ -1,5 +1,6 @@
 <template>
   <div v-if="editor">
+    <a @click="getEditorContent">获取内容</a>
     <editor-content :editor="editor" />
   </div>
 </template>
@@ -33,11 +34,7 @@ export default {
         Paragraph,
         Text,
         Bold,
-        Mention.configure({
-          userInfo: {
-            sex: 'male',
-          },
-        }),
+        Mention.configure({}),
         // Mention.configure({
         //   HTMLAttributes: {
         //     class: 'mention',
@@ -54,6 +51,12 @@ export default {
 
   beforeUnmount() {
     this.editor.destroy()
+  },
+
+  methods: {
+    getEditorContent() {
+      console.log(this.editor.getText())
+    },
   },
 }
 </script>

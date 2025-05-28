@@ -40,7 +40,7 @@ const Node = Node.create({
     return ['span', HTMLAttributes, 0]
   },
 
-  // 定义如何将节点渲染为纯文本
+  // 定义如何将节点渲染为纯文本(getText方法会调用)
   renderText({ node }) {
     return node.attrs.label || ''
   },
@@ -118,7 +118,7 @@ const Node = Node.create({
     ]
   },
 
-  // 定义节点在 ProseMirror 中的视图
+  // 定义节点在 ProseMirror 中的视图（renderHTML是基础的渲染；addNodeView是更高级的渲染，用于创建可交互的DOM节点）
   addNodeView() {
     return ({ node, editor, getPos }) => {
       // 自定义节点视图
