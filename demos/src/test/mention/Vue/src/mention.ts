@@ -35,6 +35,7 @@ const Mention = Node.create({
    * @returns
    */
   parseHTML() {
+    console.log('parseHTML')
     return [
       {
         // 会使用dom.matches(选择器)方法，与tag进行匹配
@@ -47,7 +48,7 @@ const Mention = Node.create({
     //  structure[0]为元素名、structure[1]为元素的属性、structure[2]为子元素内容（例如：['code', { 'data-type': this.name },['span']]）
     // return ['code', { 'data-type': this.name }, '']
 
-    console.log('options===', this.options)
+    console.log('renderHTML', this.options)
     return ['span', { contentEditable: true, 'data-type': this.name }, '123']
   },
   onBlur() {

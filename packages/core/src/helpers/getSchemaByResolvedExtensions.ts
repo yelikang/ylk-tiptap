@@ -32,6 +32,7 @@ function cleanUpSchemaItem<T>(data: T) {
  * @returns A Prosemirror schema
  */
 export function getSchemaByResolvedExtensions(extensions: Extensions, editor?: Editor): Schema {
+  // 获取每个extension定义的全局属性addGlobalAttributes、自身属性addAttributes；用于构建schema的attrs属性；在HTML解析的时候进行注入？
   const allAttributes = getAttributesFromExtensions(extensions)
   // 拆分扩展，区分extension、node、mark
   const { nodeExtensions, markExtensions } = splitExtensions(extensions)
@@ -113,7 +114,7 @@ export function getSchemaByResolvedExtensions(extensions: Extensions, editor?: E
       if (renderHTML) {
         // 转换为DOM，调用对应node的renderHTML方法
         schema.toDOM = node => {
-          // 这里的调用，是在prosemirror中的viewdesc/NodeViewDesc/ DOMSerializer.renderSpec
+          // 这里被调用，是在prosemirror中的viewdesc/NodeViewDesc/ DOMSerializer.renderSpec
 
           return renderHTML({
             node,
@@ -207,7 +208,9 @@ export function getSchemaByResolvedExtensions(extensions: Extensions, editor?: E
   )
 
   // 构建Schema对象（包含nodes、marks、topNode）
-  // 传递进去的nodes、marks不是Node、mark对象，会通过 NodeType.compile、MarkType.compile 转换为NodeType、MarkType对象
+  // 传递进去的nodes、marks不是Node、mark对象，会在promisemirror中通过 NodeType.compile、MarkType.compile 转换为NodeType、MarkType对象
+  // 最后形成  schema:{nodes: {custom-mention: NodeType}, marks: {}} 对象
+  // NodeType的spec中会携带这里组装的node schema的原始数据
   return new Schema({
     topNode,
     nodes,

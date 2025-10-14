@@ -275,7 +275,7 @@ export class Editor extends EventEmitter<EditorEvents> {
    * Creates an extension manager.
    */
   private createExtensionManager(): void {
-
+    // 核心扩展（可配置是否启用）
     const coreExtensions = this.options.enableCoreExtensions ? [
       Editable,
       ClipboardTextSerializer.configure({
@@ -293,6 +293,7 @@ export class Editor extends EventEmitter<EditorEvents> {
       }
       return true
     }) : []
+    // 核心扩展 + 自定义扩展
     const allExtensions = [...coreExtensions, ...this.options.extensions].filter(extension => {
       return ['extension', 'node', 'mark'].includes(extension?.type)
     })

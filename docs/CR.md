@@ -100,9 +100,6 @@ Mention.configure({
 ```
 
 
-
-
-
 ## todo
 - 如何根据内容匹配上对应的自定义Node的？ —— 好像是根据parseHTML匹配? - Editor createView构建doc阶段处理的？
 - 如何手动构建自定义Node?

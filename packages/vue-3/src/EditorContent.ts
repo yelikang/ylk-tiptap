@@ -37,7 +37,7 @@ export const EditorContent = defineComponent({
           }
 
           const element = unref(rootEl.value)
-
+          // 将editor构造的dom内容添加到根元素中
           rootEl.value.append(...editor.options.element.childNodes)
 
           // @ts-ignore
