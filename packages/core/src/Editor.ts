@@ -377,6 +377,7 @@ export class Editor extends EventEmitter<EditorEvents> {
 
     // `editor.view` is not yet available at this time.
     // Therefore we will add all plugins and node views directly afterwards.
+    // Prosemirror 插件收集及注册
     const newState = this.state.reconfigure({
       plugins: this.extensionManager.plugins,
     })

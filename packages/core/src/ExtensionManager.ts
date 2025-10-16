@@ -146,6 +146,7 @@ export class ExtensionManager {
 
   /**
    * Get all registered Prosemirror plugins from the extensions.
+   * 从扩展中获取所有注册的Prosemirror插件
    * @returns An array of Prosemirror plugins
    */
   get plugins(): Plugin[] {
