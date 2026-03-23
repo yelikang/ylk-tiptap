@@ -33,7 +33,7 @@ export function getAttributesFromExtensions(extensions: Extensions): ExtensionAt
       storage: extension.storage,
       extensions: nodeAndMarkExtensions,
     }
-
+    // 例如: color、text-aligin 中有addGlobalAttributes属性
     const addGlobalAttributes = getExtensionField<AnyConfig['addGlobalAttributes']>(
       extension,
       'addGlobalAttributes',
