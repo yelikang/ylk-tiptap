@@ -131,6 +131,8 @@ const Node = Node.create({
       }
     }
   },
+  // 拓展节点的自定义NodeSpec（例如：extension-table添加tableRole属性）
+  extendNodeSchema(extension)=>{}
 })
 
 
