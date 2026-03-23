@@ -3,16 +3,16 @@
 const Node = Node.create({
   // 节点名称，必填
   name: 'custom-mention',
-  
+
   // 节点优先级，数字越大优先级越高
   priority: 1001,
-  
+
   // 节点所属组别
   group: 'inline',
-  
+
   // 是否为行内节点
   inline: true,
-  
+
   // 节点是否可以包含其他内容
   content: 'text*',  // 可以包含任意文本
   // 或 'block+'  // 必须包含至少一个块级元素
@@ -35,12 +35,12 @@ const Node = Node.create({
     ]
   },
 
-  // 定义如何将节点渲染为 HTML
+  // 把节点序列化为 HTML 结构（tag + attributes）（getHTML会调用）
   renderHTML({ node, HTMLAttributes }) {
     return ['span', HTMLAttributes, 0]
   },
 
-  // 定义如何将节点渲染为纯文本(getText方法会调用)
+  // 把节点序列化为 纯文本(getText方法会调用)
   renderText({ node }) {
     return node.attrs.label || ''
   },
