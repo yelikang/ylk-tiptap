@@ -1,5 +1,7 @@
 import { Node } from '@tiptap/core'
 import createMentionPlugin from './prosemirror-mention-plugin'
+import { VueNodeViewRenderer } from '@tiptap/vue-3'
+import MentionNodeRender from './mention-node-render.vue'
 
 export interface MentionOptions {
   char: string
@@ -54,6 +56,9 @@ const Mention = Node.create({
   onBlur() {
     console.log('onBlur')
   },
+  // addNodeView(){
+  //   return VueNodeViewRenderer(MentionNodeRender)
+  // },
 
   // // 添加键盘快捷键
   // addKeyboardShortcuts() {
