@@ -11,6 +11,7 @@ import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import Bold from '@tiptap/extension-bold'
 import { Editor, EditorContent } from '@tiptap/vue-3'
+import Color from '@tiptap/extension-color'
 
 import Mention from './src/mention'
 
@@ -30,6 +31,7 @@ export default {
   mounted() {
     this.editor = new Editor({
       extensions: [
+        Color,
         Document,
         Paragraph,
         Text,
