@@ -49,7 +49,9 @@ export function getSchemaByResolvedExtensions(extensions: Extensions, editor?: E
         storage: extension.storage,
         editor,
       }
-
+      // 通过extendNodeSchema扩展NodeSpec，添加自定义属性(例如:table中申明tableRole,然后通过extendNodeSchema将其拓展到NodeSpec上)
+      // “跨扩展”地扩展：在A extension中声明了extendNodeSchema以及其对应的属性；在B扩展中只声明相应的属性，没有extendNodeSchema，该属性也会同步（注入）到 B的NodeSpec
+      // 因为: 执行extendNodeSchema时传入的是当前的extension（比如执行table的extendNodeSchema时，传入的是当前的extension；所以会获取当前extension的tableRole）
       const extraNodeFields = extensions.reduce((fields, e) => {
         const extendNodeSchema = getExtensionField<AnyConfig['extendNodeSchema']>(
           e,
