@@ -34,16 +34,22 @@ const Node = Node.create({
       },
     ]
   },
-
-  // 把节点序列化为 HTML 结构（tag + attributes）（getHTML会调用）
+  /**
+   * 1. 序列化/生成普通DOM结构(静态渲染)
+   * 2. 在HTML导出/复制时，序列化为DOM
+   */
   renderHTML({ node, HTMLAttributes }) {
     return ['span', HTMLAttributes, 0]
   },
-
   // 把节点序列化为 纯文本(getText方法会调用)
   renderText({ node }) {
     return node.attrs.label || ''
   },
+  /**
+   * 1. 接管节点的动态渲染（存在时renderHTML不参与渲染）
+   * 2. 不参与HTML导出/复制等序列化场景
+   */
+  addNodeView(){}
 
   // ================== 属性定义 ==================
   // 定义节点的属性
