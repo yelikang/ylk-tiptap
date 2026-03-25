@@ -93,6 +93,13 @@ schema = {
   }
 }
 
+NodeSpec = {
+  group:string
+  inline:string
+  parseDOM(){}
+  toDOM(){}
+  toText(){}
+}
 
 // tiptap Schema 转换为 Prosemirror Schema
 Schema  = {
@@ -106,9 +113,14 @@ Schema  = {
 }
 
 type NodeType = {
-  name: string  extension名称
-  schema: Schema  当前schema本身
-  spec:NodeSpec  extension原始数据
+  // extension名称
+  name: string
+  // 当前schema本身
+  schema: Schema
+  // extension原始数据
+  spec:NodeSpec
+  // 创建一个Node实例
+  create()
 }
 
 
