@@ -191,3 +191,26 @@ class Plugin {
   views:{}
 }
 ```
+
+# step5: 构建EditorView
+```ts
+class EditorView{
+  // 挂载编辑器的DOM元素
+  dom: HTMLElement
+  // 状态管理
+  state: EditorState
+  docView: NodeViewDesc
+  // 底层使用MutationObserver监听this.dom对象；内容变更时进行逻辑处理
+  domObsever: DOMObserver
+
+}
+
+class NodeViewDesc {
+}
+
+class DomObserver{
+
+}
+```
+
+
