@@ -214,3 +214,16 @@ class DomObserver{
 ```
 
 
+
+
+# tiptap Editor对象
+``` ts
+class Editor {
+  extensionManager: ExtensionManager
+  commandManager: CommandManager
+  schema: this.extensionManager.schema
+  view: EditorView
+  get state()=> this.view.state
+
+}
+```
