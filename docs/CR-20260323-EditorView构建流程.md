@@ -163,3 +163,31 @@ Fragment = {
   content: Node[]
 }
 ```
+
+
+# step3: 构建Selection
+
+# step4: 构建EditorState
+```ts
+class EditorState{
+  config: Configuration
+  selection: Selection
+  get plugins: this.config.plugins
+}
+
+class Configuration {
+  schema: Schema
+  feilds:FieldDesc<any>[]
+  plugins: Plugin[] = []
+}
+
+class Plugin {
+  key: PluginKey
+  state:{
+    init(){}
+    apply(){}
+  },
+  props:{}
+  views:{}
+}
+```
