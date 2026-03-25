@@ -67,6 +67,7 @@ export class Editor extends EventEmitter<EditorEvents> {
   public extensionStorage: Record<string, any> = {}
 
   public options: EditorOptions = {
+    // 初始化一个默认的div(这个div会被挂在到editor-content的div下面)，一个contenteditable元素
     element: document.createElement('div'),
     content: '',
     injectCSS: true,
@@ -359,6 +360,7 @@ export class Editor extends EventEmitter<EditorEvents> {
         { errorOnInvalidContent: false },
       )
     }
+    // 构建Selection选择器
     const selection = resolveFocusPosition(doc, this.options.autofocus)
 
     this.view = new EditorView(this.options.element, {
