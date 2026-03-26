@@ -29,7 +29,8 @@ type NodeType ={
 # step2: schema生成Doc
 1. 在createView中，将options.content、schema、parseOptions转换为doc: Node
 2. 通过prosemirror-model中的DOMParser.fromSchema(schema)构建DOMParser
-   a.  DOMParser.schemaRules中将schema中的nodes、marks上的parseDOM(extension上的parseHTML - 在getSchemaByResolvedExtensions进行了获取和转换)转换为[ParseRule]
+   a.  DOMParser.schemaRules中将schema中的nodes、marks上的parseDOM(extension上的parseHTML - 在getSchemaByResolvedExtensions进行了获取和转换)转换为[ParseRule] -> 【DOM/HTML转换为Prosemirror Node文档时的解析规则表】 例如: p -> paragraph，在解析HTMLNode时，知道这个HTMLNode是p标签，就会转换成Promsemirror 的 paragraph节点
+
    b. 通过[ParseRule]，构建DOMParser => 并缓存在了schema.cached.domOarser上
 3. 通过elementFromString(content)将options.content转换为DOMElement
 4. 使用DOMParser解析DOMElement，生成doc: Node
@@ -64,8 +65,31 @@ class TextNode extends Node {
 }
 
 ```
+## 节点parseHTML的解析与使用
+### 解析位置
+ 1. 在DOMParser.fromSchema时，会调用DOMParser.schemaRules将schema中的nodes、marks上的parseDOM转换为[ParseRule]
 
-构建步骤:
+```ts
+type ParseRule = {
+  tag: string
+  // Node名称，例如tiptap Node.create创建的Node名称(custom-mention)
+  node?: string
+  // tiptap会在injectExtensionAttributesToParseRule统一对parseDOM，增加getAttrs的返回
+  getAttrs?:()=>{}
+}
+```
+### 使用位置
+ 1. 首先：tiptap的schema nodes: NodeSpec[]，转换为prosemirror的 Schema nodes: NodeType[]
+ 2. 在迭代解析字符串转换成的dom的addElement方法时，每个dom都使用 [ParseRule] 去匹配(根据tag)
+ 3. 匹配到后，根据node名称，从schema.nodes中获取对应的NodeType
+    - nodeType = this.parser.schema.nodes[rule.node];
+ 4. nodeType作用：
+    - 当遇到叶子节点时：调用nodeType.create创建Node实例；
+    - 不是叶子节点时，会创建一个NodeContext上下文，用于存储当前节点的信息(nodeType作为NodeContext.type)；出栈时根据nodeType创建Node实例
+
+
+
+## Doc构建步骤:
 1. 在构建doc的Node过程中，就构建Node的层级树结构
 - 逻辑顺序：先“打开父”，再“解析子”，最后“生成父”。
   - 进入非叶子节点时调用 enter/enterInner 把一个 NodeContext 压栈（父“占位”已建立）—— 【每一个非叶子节点都创建一个NodeContext】from_dom.ts:L680-697
@@ -124,7 +148,7 @@ type NodeType = {
 }
 
 
-// tiptap DOMParser
+// Prosemirror DOMParser
 DOMParser = {
   schema: tiptap Schema
   content: string转换后的DOMNode
@@ -135,7 +159,7 @@ DOMParser = {
   }
 }
 
-// tiptap ParseContext
+// Prosemirror ParseContext
 ParseContext = {
   // 当前打开的节点层级索引
   open:number = 0
@@ -144,7 +168,7 @@ ParseContext = {
   nodes: NodeContext[]
 }
 
-// tiptap NodeContext(中间态，用于处理遇到非叶子节点的入栈出栈逻辑)
+// Prosemirror NodeContext(中间态，用于处理遇到非叶子节点的入栈出栈逻辑)
 NodeContext = {
   // 当前节点的类型
   type: NodeType
@@ -152,12 +176,12 @@ NodeContext = {
   content: Node[]
 }
 
-// Tiptap Node(最终态，用于构建层级树结构)
+// Prosemirror Node(最终态，用于构建层级树结构)
 Node = {
   type: NodeType
   content: Fragment
 }
-// Tiptap Fragment(类似数组结构，用于存储当前节点的所有子节点)
+// Prosemirror Fragment(类似数组结构，用于存储当前节点的所有子节点)
 Fragment = {
   size: number - 下级所有同级Node的nodeSize的和(也就是内容字符串的长度)
   content: Node[]
@@ -199,10 +223,12 @@ class EditorView{
   dom: HTMLElement
   // 状态管理
   state: EditorState
+  // 文档视图描述器(doc view descraption)
   docView: NodeViewDesc
   // 底层使用MutationObserver监听this.dom对象；内容变更时进行逻辑处理
   domObsever: DOMObserver
-
+  // 输入状态控制器
+  input: InputState
 }
 
 class NodeViewDesc {
@@ -210,6 +236,11 @@ class NodeViewDesc {
 
 class DomObserver{
 
+}
+
+class InputState{
+  // 是否正在输入中
+  composing: Boolean = false
 }
 ```
 
