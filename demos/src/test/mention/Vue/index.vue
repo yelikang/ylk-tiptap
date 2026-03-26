@@ -48,6 +48,7 @@ export default {
         <p>Hi everyone! Don’t forget the daily stand up at 8 AM.</p>
         <p><span data-type="mention" data-id="Jennifer Grey"></span> Would you mind to share what you’ve been working on lately? We fear not much happened since Dirty Dancing.
       `,
+      autofocus: true,
     })
   },
 
@@ -58,6 +59,7 @@ export default {
   methods: {
     getEditorContent() {
       console.log(this.editor.getText())
+      console.log(this.editor.getHTML())
     },
   },
 }

@@ -68,6 +68,7 @@ export class Editor extends EventEmitter<EditorEvents> {
 
   public options: EditorOptions = {
     // 初始化一个默认的div(这个div会被挂在到editor-content的div下面)，一个contenteditable元素
+    // 上面描述错误：这里的element只是用来挂在prosemirror中this.dom的父元素；而editor-content中实际挂在的是 rootEl.value.append(...editor.options.element.childNodes) -> element下的childNodes
     element: document.createElement('div'),
     content: '',
     injectCSS: true,

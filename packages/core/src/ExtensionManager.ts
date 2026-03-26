@@ -289,6 +289,7 @@ export class ExtensionManager {
             editor,
             type: getNodeType(extension.name, this.schema),
           }
+          // 处理所有Extension的addNodeView属性
           const addNodeView = getExtensionField<NodeConfig['addNodeView']>(
             extension,
             'addNodeView',
