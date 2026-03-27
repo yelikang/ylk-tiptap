@@ -197,6 +197,7 @@ class EditorState{
   config: Configuration
   selection: Selection
   get plugins: this.config.plugins
+  get tr: new Transaction(this)
 }
 
 class Configuration {
@@ -213,6 +214,11 @@ class Plugin {
   },
   props:{}
   views:{}
+}
+
+// 事务
+class Transaction{
+
 }
 ```
 
