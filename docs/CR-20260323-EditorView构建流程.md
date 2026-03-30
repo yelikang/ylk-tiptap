@@ -280,3 +280,9 @@ class Editor {
 - 用来什么这个Node/Mark有哪些attrs、默认值、如何从HTML解析、如何渲染回HTML
 - 这些属性会被汇总进schema的attrs，并在HTML解析时注入到parseRule的getAttrs里(实现:injectExtensionAttributesToParseRule)
 
+
+# addInputRules
+- 用来定义输入规则，用于在用户输入时触发命令(实现类似Markdown的自动格式化/转换效果)
+- 返回 inputRule[]
+- ExtensionManager在组装插件时，会遍历所有Extension，把每个Extension的addInputRules()收集到inputRules数组中，最后统一生成一个inputRulesPlugin插件挂载到ProseMirror
+- 用户在输入时，会触发inputRulesPlugin上的handleTextInput方法，然后匹配到对应的rule，在rule中处理逻辑
