@@ -264,3 +264,19 @@ class Editor {
 
 }
 ```
+
+
+# addOptions、addStorage、addAttributes的区别
+## addOptions(何时使用：可让用户配置)
+- 定义默认配置，最终通过configure 覆盖/合并
+- 偏静态配置，不要把频繁变化的状态放这里(一般用于配置Extension的一些固有参数,然后外层可以通过configure覆盖)
+
+## addStorage(何时使用：Extension运行时数据/方法,不进入文档)
+- 用来给每个Extension提供独立的可变存储(Extension在构造时会调用addStorage方法)
+- 可通过editor.storage.customExtensionName.userName 这类方式使用
+- 不进入文档，不影响Schema;适合放缓存、计算函数、插件协作状态等
+
+# addAttributes(何时使用：想把数据变成文档的一部分)
+- 用来什么这个Node/Mark有哪些attrs、默认值、如何从HTML解析、如何渲染回HTML
+- 这些属性会被汇总进schema的attrs，并在HTML解析时注入到parseRule的getAttrs里(实现:injectExtensionAttributesToParseRule)
+
