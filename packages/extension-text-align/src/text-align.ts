@@ -65,6 +65,7 @@ export const TextAlign = Extension.create<TextAlignOptions>({
   addGlobalAttributes() {
     return [
       {
+        // 把textAlign属性注入到哪些 Node/Mark类型上（白名单）
         types: this.options.types,
         attributes: {
           textAlign: {

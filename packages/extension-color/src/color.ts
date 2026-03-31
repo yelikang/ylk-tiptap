@@ -46,6 +46,7 @@ export const Color = Extension.create<ColorOptions>({
   addGlobalAttributes() {
     return [
       {
+        // 把color属性注入到哪些 Node/Mark类型上（白名单）
         types: this.options.types,
         attributes: {
           color: {

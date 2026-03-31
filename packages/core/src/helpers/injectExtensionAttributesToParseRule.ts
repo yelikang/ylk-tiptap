@@ -25,7 +25,7 @@ export function injectExtensionAttributesToParseRule(
       if (oldAttributes === false) {
         return false
       }
-
+      // 全局addGlobalAttributes属性
       const newAttributes = extensionAttributes.reduce((items, item) => {
         const value = item.attribute.parseHTML
           ? item.attribute.parseHTML(node)

@@ -32,7 +32,7 @@ function cleanUpSchemaItem<T>(data: T) {
  * @returns A Prosemirror schema
  */
 export function getSchemaByResolvedExtensions(extensions: Extensions, editor?: Editor): Schema {
-  // 获取每个extension定义的全局属性addGlobalAttributes、自身属性addAttributes；用于构建schema的attrs属性；在HTML解析的时候进行注入？
+  // 获取每个extension定义的全局属性addGlobalAttributes、自身属性addAttributes；用于构建schema的attrs属性；在HTML解析的时候进行注入
   const allAttributes = getAttributesFromExtensions(extensions)
   // 拆分扩展，区分extension、node、mark
   const { nodeExtensions, markExtensions } = splitExtensions(extensions)
@@ -40,6 +40,7 @@ export function getSchemaByResolvedExtensions(extensions: Extensions, editor?: E
 
   const nodes = Object.fromEntries(
     nodeExtensions.map(extension => {
+      // 从所有Extension中获取的addGlobalAttributes中，根据其中定义的type与当前extension的name进行匹配；代表这个全局属性可以作用在这个类型的Extension Node上
       const extensionAttributes = allAttributes.filter(
         attribute => attribute.type === extension.name,
       )
